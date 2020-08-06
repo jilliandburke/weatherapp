@@ -7,30 +7,38 @@
         <p class="mb-0">{{error}}</p>
       </div>
       <div class="form-group">
-        <label for="temperature">Time</label>
+        <label for="time">Time</label>
         <validation-provider rules="required" v-slot="{ errors }">
-        <input
-          v-model="temperature.time"
-          type="time"
-          class="form-control"
-          id="time" required>
-        <div>{{ errors[0] }}</div>
-      </validation-provider>
+          <input
+            v-model="temperature.time"
+            type="time"
+            class="form-control"
+            id="time" required>
+          <ul>
+              <li v-for='error in errors' :key='error'>
+                {{ error }}
+              </li>
+            </ul>
+        </validation-provider>
       </div>
       <div class="form-group">
         <label for="temperature">Temperature</label>
-        <validation-provider rules="required|numeric|min-value:-88|max-value:50|integer" v-slot="{ errors }">
+        <validation-provider rules="required|min_value:-88|max_value:50|integer" v-slot="{ errors }">
           <input
             v-model="temperature.temperature"
             type="number"
             class="form-control"
             id="temperature" required>
-          <div>{{ errors[0] }}</div>
+            <ul>
+              <li v-for='error in errors' :key='error'>
+                {{ error }}
+              </li>
+            </ul>
         </validation-provider>
       </div>
       <div class="form-group">
         <label for="location">Location</label>
-        <validation-provider rules="required|alpha" v-slot="{ errors }">
+        <validation-provider rules="required|alpha_spaces|min_length:2" v-slot="{ errors }">
           <input
             v-model.trim="temperature.location"
             class="form-control"
@@ -40,7 +48,6 @@
               {{ error }}
             </li>
           </ul>
-          <div>{{ errors[0] }}</div>
         </validation-provider>
       </div>
       <button type="submit" class="btn btn-primary">Add Temperature</button>
@@ -62,12 +69,15 @@ import moment from 'moment'
 import '../validation/formValidation'
 import { ValidationProvider, extend, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
+import { messages } from 'vee-validate/dist/locale/en.json'
 const BASE_URL = process.env.VUE_APP_API_URL
 
-// extend('required', {
-//   ...rules.required,
-//   message: 'This field is required'
-// })
+for (const [rule, validation] of Object.entries(rules)) {
+  extend(rule, {
+    ...validation,
+    message: messages[rule]
+  })
+}
 
 configure({
   classes: {
