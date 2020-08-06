@@ -3,7 +3,7 @@
     <ul class="temperature-list">
       <li class="temperature-entry" v-for='(temp, index) in temperatures' :key='temp._id'>
         <div class='card-header'>
-          <a href='' @click.prevent="openThread" class='remove-temp' v-on:click='deleteTemperature(temp, index)'> x </a>
+          <button type='button' class='remove-temp' v-on:click='deleteTemperature(temp, index)'> x </button>
         </div>
         <div class='card-body'>
           <p class='temp'>{{temp.temperature}}</p>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     deleteTemperature (temp, i) {
-      fetch(BASE_URL + `/temperature/${temp.id}`, {
+      fetch(BASE_URL + `/temperature/${temp._id}`, {
         method: 'DELETE'
       })
         .then(result => {

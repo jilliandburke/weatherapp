@@ -41,7 +41,7 @@ apiRouter.post('/api/temperatures', async (req, res) => {
 apiRouter.delete('/api/temperature/:id', async (req, res) => {
   // Delete temp
   try {
-    await Weather.findByIdAndDelete(req.params._id).exec((err, temp) => {
+    await Weather.deleteOne({_id: req.params.id}).then((err) => {
       if (err) {
         res.send('Error ' + err)
       } else {
