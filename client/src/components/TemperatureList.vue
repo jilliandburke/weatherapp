@@ -32,7 +32,7 @@ export default {
     fetch(BASE_URL + '/temperatures')
       .then(response => response.json())
       .then(result => {
-        this.temperatures = result
+        this.temperatures = this.latestTemps(result)
       })
   },
   methods: {
@@ -52,6 +52,32 @@ export default {
             this.temperatures.splice(i, 1)
           }
         })
+    },
+    latestTemps (temps) {
+      const finalTemps = []
+      const Now = new Date().getTime()
+      const locations = temps.map(temp => temp.location)
+        .filter((value, index, self) => self.indexOf(value) === index)
+
+      locations.forEach(location => {
+        const diffs = []
+        const cityTemps = temps.filter(t => t.location === location)
+
+        if (cityTemps.length === 1) {
+          finalTemps.push(cityTemps[0])
+        } else {
+          cityTemps.forEach((temp, index) => {
+            const tempAsDate = new Date(temp.time)
+            diffs.push({
+              diff: Now - tempAsDate,
+              index: index
+            })
+          })
+          finalTemps.push(cityTemps[diffs.sort()[0].index])
+        }
+      })
+
+      return finalTemps
     }
   }
 }
