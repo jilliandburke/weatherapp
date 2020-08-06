@@ -66,7 +66,6 @@
 
 <script>
 import moment from 'moment'
-import '../validation/formValidation'
 import { ValidationProvider, extend, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import { messages } from 'vee-validate/dist/locale/en.json'
