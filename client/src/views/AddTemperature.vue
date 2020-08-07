@@ -1,11 +1,6 @@
 <template>
-  <div>
+  <div class='container'>
     <form @submit.prevent="addTemperature" class="mb-3">
-      <div v-if="error" class="alert alert-dismissible alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4 class="alert-heading">Error!</h4>
-        <p class="mb-0">{{error}}</p>
-      </div>
       <div class="form-group">
         <label for="time">Time</label>
         <validation-provider rules="required" v-slot="{ errors }">
@@ -30,7 +25,7 @@
             class="form-control"
             id="temperature" required>
             <ul>
-              <li v-for='error in errors' :key='error'>
+              <li class='errors' v-for='error in errors' :key='error'>
                 {{ error }}
               </li>
             </ul>
@@ -38,7 +33,7 @@
       </div>
       <div class="form-group">
         <label for="location">Location</label>
-        <validation-provider rules="required|alpha_spaces|min_length:2" v-slot="{ errors }">
+        <validation-provider rules="required|alpha_spaces" v-slot="{ errors }">
           <input
             v-model.trim="temperature.location"
             class="form-control"
@@ -50,7 +45,7 @@
           </ul>
         </validation-provider>
       </div>
-      <button type="submit" class="btn btn-primary">Add Temperature</button>
+      <button type="submit" class="submit-button">Add Temperature</button>
     </form>
     <div class="temperature-list">
       <ul>
@@ -64,7 +59,7 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import moment from 'moment'
 import { ValidationProvider, extend, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
@@ -148,20 +143,58 @@ export default {
 }
 </script>
 
-<style>
-  form {
-    margin-bottom: 70px;
+<style lang='scss'>
+  .container {
+    margin-top: 150px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
 
   .temperature-entry {
     list-style: none;
   }
 
-  .form-control:focus::-webkit-input-placeholder {
-    color: transparent;
-  }
+  form {
+    margin-bottom: 70px;
+    align-content: center;
 
-  .is-invalid {
-    color: red;
+    .form-group {
+      text-align: left;
+
+      .label {
+        display: block;
+      }
+
+      .form-control {
+        border-radius: 4px;
+        display: block;
+        border: 1px solid #ccc;
+        padding: 5px 15px;
+        min-width: 200px;
+      }
+    }
+
+    .submit-button {
+      margin: 10px 15px;
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+      position: relative;
+      background-color: #42b983;
+      color: #fff;
+      border-radius: 8px;
+      vertical-align: middle;
+      padding: 10px 20px;
+      box-shadow: 0px 4px 4px -1px rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        background-color: #36966b
+      }
+    }
   }
 </style>

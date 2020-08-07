@@ -1,19 +1,17 @@
 <template>
   <div class="home">
-    <TemperatureList />
+    <DynamicMenu />
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import TemperatureList from '@/components/TemperatureList.vue'
+import DynamicMenu from '@/components/DynamicMenu.vue'
 
 export default {
   name: 'Home',
   components: {
-    // HelloWorld,
-    TemperatureList
+    DynamicMenu
   }
 }
 </script>

@@ -1,24 +1,24 @@
 <template>
-  <div>
+  <div class='container'>
     <ul class="temperature-list">
       <li class="temperature-entry" v-for='(temp, index) in temperatures' :key='temp._id'>
         <div class='card-header'>
           <button type='button' class='remove-temp' v-on:click='deleteTemperature(temp, index)'> x </button>
         </div>
         <div class='card-body'>
-          <p class='temp'>{{temp.temperature}}</p>
-          <p class='location'>{{temp.location}}</p>
-          <p class='time'>{{temp.time | moment("h:mm a")}}</p>
+          <p class='temp'>{{temp.temperature}}°</p>
+          <div class="meta-details">
+            <p class='location'>{{temp.location}}</p>
+            <p class='time'>{{temp.time | moment("h:mm a")}}</p>
+          </div>
         </div>
       </li>
     </ul>
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 const BASE_URL = process.env.VUE_APP_API_URL
-
-console.log(process.env.VUE_APP_API_URL)
 
 export default {
   name: 'TemperatureList',
@@ -40,7 +40,7 @@ export default {
       fetch(BASE_URL + `/temperature/${temp._id}`, {
         method: 'DELETE'
       })
-        .then(result => {
+        .then((result: any) => {
           if (result.details) {
             // there was an error...
             const error = result.details
@@ -67,7 +67,7 @@ export default {
           finalTemps.push(cityTemps[0])
         } else {
           cityTemps.forEach((temp, index) => {
-            const tempAsDate = new Date(temp.time)
+            const tempAsDate: any = new Date(temp.time)
             diffs.push({
               diff: Now - tempAsDate,
               index: index
@@ -84,13 +84,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .container {
+    width: 100%;
+  }
+
   .temperature-list {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: center;
     padding: 0 40px;
-    // color: #fff;
+    margin-top: 40px;
   }
 
   .temperature-entry {
@@ -103,17 +107,21 @@ export default {
     border-radius: 4px;
     box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.3);
     list-style: none;
+    position: relative;
   }
 
   .temp {
-    font-size: 40px;
-    line-height: 0;
+    font-size: 70px;
     font-weight: 800;
-    margin: 0;
+    margin: 0 -30px -40px 0;
   }
 
   .location {
-    margin-top: 25px;
+    padding: 0 25px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    font-size: 22px;
+    line-height: 1;
   }
 
   .time {
@@ -123,7 +131,8 @@ export default {
   .card-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    position: relative;
+    height: 30px;
   }
 
   .card-body {
@@ -131,8 +140,20 @@ export default {
   }
 
   .remove-temp {
-    text-decoration: none;
     margin: 10px 15px;
-    color: #fff;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    padding-bottom: 4px;
   }
 </style>
