@@ -3,6 +3,7 @@
     <div class="header">
       <h1>WeatherApp</h1>
       <div id="nav">
+        <router-link to="/">Home</router-link> |
         <router-link to="/add-temperature">Record Temperature</router-link>
       </div>
     </div>

@@ -9,11 +9,11 @@
             type="time"
             class="form-control"
             id="time" required>
-          <ul>
-              <li v-for='error in errors' :key='error'>
-                {{ error }}
-              </li>
-            </ul>
+          <ul class='errors'>
+            <li v-for='error in errors' :key='error'>
+              {{ error }}
+            </li>
+          </ul>
         </validation-provider>
       </div>
       <div class="form-group">
@@ -24,11 +24,11 @@
             type="number"
             class="form-control"
             id="temperature" required>
-            <ul>
-              <li class='errors' v-for='error in errors' :key='error'>
-                {{ error }}
-              </li>
-            </ul>
+          <ul class='errors' >
+            <li v-for='error in errors' :key='error'>
+              {{ error }}
+            </li>
+          </ul>
         </validation-provider>
       </div>
       <div class="form-group">
@@ -38,7 +38,7 @@
             v-model.trim="temperature.location"
             class="form-control"
             id="location">
-          <ul>
+          <ul class='errors'>
             <li v-for='error in errors' :key='error'>
               {{ error }}
             </li>
@@ -47,15 +47,7 @@
       </div>
       <button type="submit" class="submit-button">Add Temperature</button>
     </form>
-    <div class="temperature-list">
-      <ul>
-        <li class="temperature-entry" v-for='temp in temperatures' :key='temp._id'>
-          {{temp.time}}
-          {{temp.temperature}}
-          {{temp.location}}
-        </li>
-      </ul>
-    </div>
+    <component :is="currentView"></component>
   </div>
 </template>
 
@@ -143,7 +135,7 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
   .container {
     margin-top: 150px;
     align-items: center;
@@ -176,7 +168,7 @@ export default {
     }
 
     .submit-button {
-      margin: 10px 15px;
+      margin: 30px 15px 10px 15px;
       background: none;
       color: inherit;
       border: none;
@@ -195,6 +187,16 @@ export default {
       &:hover {
         background-color: #36966b
       }
+    }
+
+    .errors {
+      list-style: none;
+      padding-left: 0;
+      font-size: 14px;
+      margin: 5px auto;
+      text-align: center;
+      color: red;
+      max-width: 200px;
     }
   }
 </style>

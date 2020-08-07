@@ -1,7 +1,7 @@
 <template>
   <div class='menu-container'>
     <tabs>
-      <tab title='Home'>
+      <tab title='All Cities'>
         <TemperatureList />
       </tab>
       <tab v-for='(location) in locations' :key='location' :title='location'>
