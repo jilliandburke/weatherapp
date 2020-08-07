@@ -1,5 +1,8 @@
 <template>
   <div class='container'>
+    <div class='success' v-if='successful === true'>
+      <p>Temperature Successfully Added!</p>
+    </div>
     <form @submit.prevent="addTemperature" class="mb-3">
       <div class="form-group">
         <label for="time">Time</label>
@@ -45,9 +48,8 @@
           </ul>
         </validation-provider>
       </div>
-      <button type="submit" class="submit-button">Add Temperature</button>
+      <button type="submit" class="submit-button" @click='successful = true'>Add Temperature</button>
     </form>
-    <component :is="currentView"></component>
   </div>
 </template>
 
@@ -85,7 +87,8 @@ export default {
       time: '',
       temperature: '',
       location: ''
-    }
+    },
+    successful: false
   }),
   mounted () {
     fetch(BASE_URL + '/temperatures')
@@ -137,7 +140,7 @@ export default {
 
 <style lang='scss' scoped>
   .container {
-    margin-top: 150px;
+    margin-top: 120px;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -148,6 +151,7 @@ export default {
   }
 
   form {
+    margin-top: 20px;
     margin-bottom: 70px;
     align-content: center;
 
@@ -198,5 +202,13 @@ export default {
       color: red;
       max-width: 200px;
     }
+  }
+
+  .success p {
+    padding: 15px 25px;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 8px;
+    border-color: #c3e6cb;
   }
 </style>
